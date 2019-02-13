@@ -9,6 +9,10 @@ public class Score {
         this.value = value;
     }
 
+    public Score plus(Score addedScore) {
+        return new Score(value + addedScore.value);
+    }
+
     public static Score valueOf(int i) {
         return new Score(i);
     }

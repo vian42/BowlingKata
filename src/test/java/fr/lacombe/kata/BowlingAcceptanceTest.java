@@ -24,7 +24,7 @@ public class BowlingAcceptanceTest {
     }
 
     @Test
-    public void name() {
+    public void given_a_game_with_only_one_should_return_twenty() {
         Roll rollOne = new Roll(1);
         Game game = new Game();
         game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());

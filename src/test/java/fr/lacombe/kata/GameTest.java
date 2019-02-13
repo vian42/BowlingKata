@@ -42,4 +42,14 @@ public class GameTest {
         assertThat(game.score()).isEqualTo(Score.valueOf(pins));
     }
 
+    @Test
+    public void given_a_game_with_two_frames_with_first_roll_with_one_pin_should_return_two() {
+        Roll rollOne = new Roll(0);
+        Roll rollZero = new Roll(1);
+        Frame frame = aFrame(rollOne).withSecondRoll(rollZero).build();
+        Game game = new Game();
+        game.addFrame(frame);
+        game.addFrame(frame);
+        assertThat(game.score()).isEqualTo(Score.valueOf(2));
+    }
 }
