@@ -39,4 +39,23 @@ public class BowlingAcceptanceTest {
         game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
         Assertions.assertThat(game.score()).isEqualTo(Score.valueOf(20));
     }
+
+    @Test
+    public void name() {
+        Roll rollZero = new Roll(0);
+        Roll rollOne = new Roll(1);
+        Roll rollNine = new Roll(9);
+        Game game = new Game();
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollNine).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollNine).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        Assertions.assertThat(game.score()).isEqualTo(Score.valueOf(22));
+    }
 }

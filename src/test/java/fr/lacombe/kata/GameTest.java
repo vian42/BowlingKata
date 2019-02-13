@@ -52,4 +52,5 @@ public class GameTest {
         game.addFrame(frame);
         assertThat(game.score()).isEqualTo(Score.valueOf(2));
     }
+
 }
