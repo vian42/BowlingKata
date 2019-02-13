@@ -13,6 +13,10 @@ public class Frame {
         this(firstRoll, null);
     }
 
+    public Score computeScore() {
+        return Score.valueOf(firstRoll.plus(secondRoll));
+    }
+
     public static class FrameBuilder {
         private final Roll firstRoll;
         private Roll secondRoll;

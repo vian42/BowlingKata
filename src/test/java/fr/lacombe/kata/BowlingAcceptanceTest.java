@@ -3,28 +3,40 @@ package fr.lacombe.kata;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static fr.lacombe.kata.Frame.FrameBuilder.aFrame;
 
 public class BowlingAcceptanceTest {
     @Test
-    public void name() {
+    public void given_a_game_with_only_zero_score_should_be_zero() {
         Roll rollZero = new Roll(0);
-        List<Frame> frames = Arrays.asList(
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build(),
-                aFrame(rollZero).withSecondRoll(rollZero).build()
-        );
-        Game game = new Game(frames);
+        Game game = new Game();
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
+        game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
         Assertions.assertThat(game.score()).isEqualTo(Score.valueOf(0));
+    }
+
+    @Test
+    public void name() {
+        Roll rollOne = new Roll(1);
+        Game game = new Game();
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
+        Assertions.assertThat(game.score()).isEqualTo(Score.valueOf(20));
     }
 }

@@ -10,7 +10,7 @@ public class Score {
     }
 
     public static Score valueOf(int i) {
-        return new Score(0);
+        return new Score(i);
     }
 
     @Override
@@ -24,5 +24,12 @@ public class Score {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+        return "Score{" +
+                "value=" + value +
+                '}';
     }
 }
