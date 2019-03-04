@@ -1,5 +1,7 @@
 package fr.lacombe.kata;
 
+import static fr.lacombe.kata.Score.valueOf;
+
 class Roll {
 
     private final int value;
@@ -12,7 +14,11 @@ class Roll {
         return value + secondRoll.value;
     }
 
-    int getPins() {
-        return value;
+    Score computeScore() {
+        return valueOf(value);
+    }
+
+    boolean hasPins(int pins) {
+        return pins == value;
     }
 }

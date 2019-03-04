@@ -13,19 +13,19 @@ class Frame {
     }
 
     Score computeScore() {
-        return isStrike() ? valueOf(firstRoll.getPins()): valueOf(firstRoll.plus(secondRoll));
+        return isStrike() ? firstRoll.computeScore() : valueOf(firstRoll.plus(secondRoll));
     }
 
     boolean isStrike() {
-        return MAX_PINS == firstRoll.getPins();
+        return firstRoll.hasPins(MAX_PINS);
     }
 
     Score getFirstRollPin() {
-        return valueOf(firstRoll.getPins());
+        return firstRoll.computeScore();
     }
 
     boolean isSpare() {
-        return firstRoll.getPins()<MAX_PINS && valueOf(MAX_PINS).equals(computeScore());
+        return !firstRoll.hasPins(MAX_PINS) && valueOf(MAX_PINS).equals(computeScore());
     }
 
     static class FrameBuilder {
