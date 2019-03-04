@@ -3,16 +3,21 @@ package fr.lacombe.kata;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.lacombe.kata.Score.*;
+import static fr.lacombe.kata.Score.NULL_SCORE;
 
 class Game {
     private FrameCursor frameCursor;
     private final List<Frame> frames = new ArrayList<>();
+    private final int maxNormalFrame;
+
+    Game(int maxNormalFrame) {
+        this.maxNormalFrame = maxNormalFrame;
+    }
 
     Score score() {
         Score score = NULL_SCORE;
-        frameCursor = new FrameCursor(frames);
-        while (frameCursor.hasNextFrame()) {
+        frameCursor = new FrameCursor(frames, maxNormalFrame);
+        while (frameCursor.hasFrameToCalculate()) {
             Frame frame = frameCursor.getNextFrame();
             score = score.plus(computeFrameScore(frame));
         }
@@ -30,7 +35,7 @@ class Game {
         if (frame.isStrike() && frameCursor.hasNextFrame()) {
             Frame next = frameCursor.getNextFrame();
             bonusStrike = next.computeScore();
-            if (next.isStrike()) {
+            if (next.isStrike() && frameCursor.hasNextFrame()) {
                 bonusStrike = bonusStrike.plus(getNextRollScore());
             }
             frameCursor.getPreviousFrame();

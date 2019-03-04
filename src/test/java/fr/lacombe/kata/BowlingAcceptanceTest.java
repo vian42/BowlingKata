@@ -9,7 +9,7 @@ public class BowlingAcceptanceTest {
     @Test
     public void given_a_game_with_only_zero_score_should_be_zero() {
         Roll rollZero = new Roll(0);
-        Game game = new Game();
+        Game game = new Game(10);
         game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
         game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
         game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
@@ -26,7 +26,7 @@ public class BowlingAcceptanceTest {
     @Test
     public void given_a_game_with_only_one_should_return_twenty() {
         Roll rollOne = new Roll(1);
-        Game game = new Game();
+        Game game = new Game(10);
         game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
         game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
         game.addFrame(aFrame(rollOne).withSecondRoll(rollOne).build());
@@ -45,7 +45,7 @@ public class BowlingAcceptanceTest {
         Roll rollZero = new Roll(0);
         Roll rollOne = new Roll(1);
         Roll rollNine = new Roll(9);
-        Game game = new Game();
+        Game game = new Game(10);
         game.addFrame(aFrame(rollOne).withSecondRoll(rollNine).build());
         game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
         game.addFrame(aFrame(rollOne).withSecondRoll(rollNine).build());
@@ -64,7 +64,7 @@ public class BowlingAcceptanceTest {
         Roll rollZero = new Roll(0);
         Roll rollOne = new Roll(1);
         Roll rollTen = new Roll(10);
-        Game game = new Game();
+        Game game = new Game(10);
         game.addFrame(aFrame(rollTen).build()); // 10 +1
         game.addFrame(aFrame(rollOne).withSecondRoll(rollZero).build());// 1-0
         game.addFrame(aFrame(rollTen).build()); // 10 +1+1
@@ -83,7 +83,7 @@ public class BowlingAcceptanceTest {
         Roll rollZero = new Roll(0);
         Roll rollOne = new Roll(1);
         Roll rollNine = new Roll(9);
-        Game game = new Game();
+        Game game = new Game(10);
         game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
         game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
         game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
@@ -95,6 +95,25 @@ public class BowlingAcceptanceTest {
         game.addFrame(aFrame(rollZero).withSecondRoll(rollZero).build());
         game.addFrame(aFrame(rollOne).withSecondRoll(rollNine).build());
         game.addFrame(aFrame(rollNine).build());
-        Assertions.assertThat(game.score()).isEqualTo(Score.valueOf(28));
+        Assertions.assertThat(game.score()).isEqualTo(Score.valueOf(19));
+    }
+
+    @Test
+    public void given_a_game_with_full_strike_should_have_score_of_300() {
+        Roll rollTen = new Roll(10);
+        Game game = new Game(10);
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        game.addFrame(aFrame(rollTen).build());
+        Assertions.assertThat(game.score()).isEqualTo(Score.valueOf(300));
     }
 }

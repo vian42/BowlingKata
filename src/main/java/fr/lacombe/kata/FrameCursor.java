@@ -5,9 +5,11 @@ import java.util.ListIterator;
 
 class FrameCursor {
     private final ListIterator<Frame> frameIterator;
+    private final int maxNormalFrame;
 
-    FrameCursor(List<Frame> frames) {
+    FrameCursor(List<Frame> frames, int maxNormalFrame) {
         frameIterator=frames.listIterator();
+        this.maxNormalFrame = maxNormalFrame;
     }
 
     void getPreviousFrame() {
@@ -20,5 +22,9 @@ class FrameCursor {
 
     Frame getNextFrame() {
         return frameIterator.next();
+    }
+
+    boolean hasFrameToCalculate() {
+        return frameIterator.hasNext() && frameIterator.nextIndex() < maxNormalFrame;
     }
 }
