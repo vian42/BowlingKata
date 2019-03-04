@@ -1,18 +1,18 @@
 package fr.lacombe.kata;
 
-public class Roll {
+class Roll {
 
     private final int value;
 
-    public Roll(int value) {
+    Roll(int value) {
         this.value = value;
     }
 
-    public int plus(Roll secondRoll) {
+    int plus(Roll secondRoll) {
         return value + secondRoll.value;
     }
 
-    public int getPins() {
+    int getPins() {
         return value;
     }
 }

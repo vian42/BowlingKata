@@ -3,18 +3,18 @@ package fr.lacombe.kata;
 import java.util.Objects;
 
 public class Score {
-    public static final Score NULL_SCORE = valueOf(0);
+    static final Score NULL_SCORE = valueOf(0);
     private final int value;
 
-    public Score(int value) {
+    private Score(int value) {
         this.value = value;
     }
 
-    public Score plus(Score addedScore) {
+    Score plus(Score addedScore) {
         return new Score(value + addedScore.value);
     }
 
-    public static Score valueOf(int i) {
+    static Score valueOf(int i) {
         return new Score(i);
     }
 

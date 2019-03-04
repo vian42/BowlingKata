@@ -1,73 +1,56 @@
 package fr.lacombe.kata;
 
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import static fr.lacombe.kata.Score.*;
 
 class Game {
-    private List<Frame> frames = new ArrayList<>();
-    private ListIterator<Frame> frameIterator;
+    private FrameCursor frameCursor;
+    private final List<Frame> frames = new ArrayList<>();
 
     Score score() {
         Score score = NULL_SCORE;
-
-        frameIterator = frames.listIterator();
-        while (hasNextFrame()) {
-            Frame frame = getNextFrame();
-            Score frameScore = getScore(frame);
-            score = score.plus(frameScore);
+        frameCursor = new FrameCursor(frames);
+        while (frameCursor.hasNextFrame()) {
+            Frame frame = frameCursor.getNextFrame();
+            score = score.plus(computeFrameScore(frame));
         }
         return score;
     }
 
-    private Score getScore(Frame frame) {
+    private Score computeFrameScore(Frame frame) {
         Score frameScore = frame.computeScore();
-        Score bonusStrike = getStrikeBonus(frame);
-        Score bonusSpare = getSpareBonus(frame);
 
-        return frameScore.plus(bonusSpare).plus(bonusStrike);
+        return frameScore.plus(computeSpareBonus(frame)).plus(computeStrikeBonus(frame));
     }
 
-    private Score getStrikeBonus(Frame frame) {
+    private Score computeStrikeBonus(Frame frame) {
         Score bonusStrike = NULL_SCORE;
-        if (frame.isStrike() && hasNextFrame()) {
-            Frame next = getNextFrame();
+        if (frame.isStrike() && frameCursor.hasNextFrame()) {
+            Frame next = frameCursor.getNextFrame();
             bonusStrike = next.computeScore();
             if (next.isStrike()) {
                 bonusStrike = bonusStrike.plus(getNextRollScore());
             }
-            getPreviousFrame();
+            frameCursor.getPreviousFrame();
         }
         return bonusStrike;
     }
 
-    private Score getSpareBonus(Frame frame) {
+    private Score computeSpareBonus(Frame frame) {
         Score bonusSpare = NULL_SCORE;
-        if (frame.isSpare() && hasNextFrame()) {
+        if (frame.isSpare() && frameCursor.hasNextFrame()) {
             bonusSpare = getNextRollScore();
         }
         return bonusSpare;
     }
 
     private Score getNextRollScore() {
-        Score firstRollPin = getNextFrame().getFirstRollPin();
-        getPreviousFrame();
+        Frame nextFrame = frameCursor.getNextFrame();
+        Score firstRollPin = nextFrame.getFirstRollPin();
+        frameCursor.getPreviousFrame();
         return firstRollPin;
-    }
-
-    private Frame getPreviousFrame() {
-        return frameIterator.previous();
-    }
-
-    private boolean hasNextFrame() {
-        return frameIterator.hasNext();
-    }
-
-    private Frame getNextFrame() {
-        return frameIterator.next();
     }
 
     void addFrame(Frame frame) {
