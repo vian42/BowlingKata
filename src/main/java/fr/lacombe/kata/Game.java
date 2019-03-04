@@ -15,8 +15,8 @@ class Game {
         Score score = NULL_SCORE;
 
         frameIterator = frames.listIterator();
-        while (frameIterator.hasNext()) {
-            Frame frame = frameIterator.next();
+        while (hasNextFrame()) {
+            Frame frame = getNextFrame();
             Score frameScore = getScore(frame);
             score = score.plus(frameScore);
         }
@@ -25,9 +25,7 @@ class Game {
 
     private Score getScore(Frame frame) {
         Score frameScore = frame.computeScore();
-
         Score bonusStrike = getStrikeBonus(frame);
-
         Score bonusSpare = getSpareBonus(frame);
 
         return frameScore.plus(bonusSpare).plus(bonusStrike);
@@ -35,20 +33,41 @@ class Game {
 
     private Score getStrikeBonus(Frame frame) {
         Score bonusStrike = NULL_SCORE;
-        if (frame.isStrike() && frameIterator.hasNext()) {
-            bonusStrike = frameIterator.next().computeScore();
-            frameIterator.previous();
+        if (frame.isStrike() && hasNextFrame()) {
+            Frame next = getNextFrame();
+            bonusStrike = next.computeScore();
+            if (next.isStrike()) {
+                bonusStrike = bonusStrike.plus(getNextRollScore());
+            }
+            getPreviousFrame();
         }
         return bonusStrike;
     }
 
     private Score getSpareBonus(Frame frame) {
         Score bonusSpare = NULL_SCORE;
-        if (frame.isSpare() && frameIterator.hasNext()) {
-            bonusSpare = frameIterator.next().getFirstRollPin();
-            frameIterator.previous();
+        if (frame.isSpare() && hasNextFrame()) {
+            bonusSpare = getNextRollScore();
         }
         return bonusSpare;
+    }
+
+    private Score getNextRollScore() {
+        Score firstRollPin = getNextFrame().getFirstRollPin();
+        getPreviousFrame();
+        return firstRollPin;
+    }
+
+    private Frame getPreviousFrame() {
+        return frameIterator.previous();
+    }
+
+    private boolean hasNextFrame() {
+        return frameIterator.hasNext();
+    }
+
+    private Frame getNextFrame() {
+        return frameIterator.next();
     }
 
     void addFrame(Frame frame) {

@@ -90,4 +90,16 @@ public class GameTest {
         game.addFrame(frame);
         assertThat(game.score()).isEqualTo(Score.valueOf(14));
     }
+    @Test
+    public void strikes() {
+        Roll rollStrike = new Roll(10);
+        Roll rollOne = new Roll(1);
+        Frame frameStrike = aFrame(rollStrike).build();
+        Frame frame = aFrame(rollOne).withSecondRoll(rollOne).build();
+        Game game = new Game();
+        game.addFrame(frameStrike);
+        game.addFrame(frameStrike);
+        game.addFrame(frame);
+        assertThat(game.score()).isEqualTo(Score.valueOf(35));
+    }
 }
