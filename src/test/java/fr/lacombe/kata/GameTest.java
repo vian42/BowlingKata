@@ -44,8 +44,8 @@ public class GameTest {
 
     @Test
     public void given_a_game_with_two_frames_with_first_roll_with_one_pin_should_return_two() {
-        Roll rollOne = new Roll(0);
-        Roll rollZero = new Roll(1);
+        Roll rollOne = new Roll(1);
+        Roll rollZero = new Roll(0);
         Frame frame = aFrame(rollOne).withSecondRoll(rollZero).build();
         Game game = new Game();
         game.addFrame(frame);
@@ -53,4 +53,16 @@ public class GameTest {
         assertThat(game.score()).isEqualTo(Score.valueOf(2));
     }
 
+    @Test
+    public void name() {
+        Roll rollOne = new Roll(1);
+        Roll rollZero = new Roll(0);
+        Roll rollNine = new Roll(9);
+        Frame frame = aFrame(rollOne).withSecondRoll(rollZero).build();
+        Frame frameSpare = aFrame(rollOne).withSecondRoll(rollNine).build();
+        Game game = new Game();
+        game.addFrame(frameSpare);
+        game.addFrame(frame);
+        assertThat(game.score()).isEqualTo(Score.valueOf(12));
+    }
 }
