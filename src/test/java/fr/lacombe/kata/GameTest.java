@@ -54,7 +54,7 @@ public class GameTest {
     }
 
     @Test
-    public void name() {
+    public void a_spare_doubles_the_next_roll_score() {
         Roll rollOne = new Roll(1);
         Roll rollZero = new Roll(0);
         Roll rollNine = new Roll(9);
@@ -64,5 +64,18 @@ public class GameTest {
         game.addFrame(frameSpare);
         game.addFrame(frame);
         assertThat(game.score()).isEqualTo(Score.valueOf(12));
+    }
+
+    @Test
+    public void a_spare__at_the_last_roll_doesnt_give_bonus_point() {
+        Roll rollOne = new Roll(1);
+        Roll rollZero = new Roll(0);
+        Roll rollNine = new Roll(9);
+        Frame frame = aFrame(rollOne).withSecondRoll(rollZero).build();
+        Frame frameSpare = aFrame(rollOne).withSecondRoll(rollNine).build();
+        Game game = new Game();
+        game.addFrame(frame);
+        game.addFrame(frameSpare);
+        assertThat(game.score()).isEqualTo(Score.valueOf(11));
     }
 }

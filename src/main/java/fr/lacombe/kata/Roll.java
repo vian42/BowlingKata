@@ -11,4 +11,8 @@ public class Roll {
     public int plus(Roll secondRoll) {
         return value + secondRoll.value;
     }
+
+    public int getPins() {
+        return value;
+    }
 }

@@ -8,10 +8,18 @@ public class Game {
     private List<Frame> frames = new ArrayList<>();
 
     public Score score() {
-        return frames.parallelStream()
-                .reduce(Score.valueOf(0),
-                        (score, frame) -> score.plus(frame.computeScore()),
-                        Score::plus);
+        Score score = Score.valueOf(0);
+        for (int i = 0; i < frames.size(); i++) {
+            Frame frame = frames.get(i);
+
+            Score addedScore = frame.computeScore();
+            score = score.plus(addedScore);
+
+            if (frame.isSpare() && i + 1 < frames.size()) {
+                score = score.plus(frames.get(i + 1).getFirstRollPin());
+            }
+        }
+        return score;
     }
 
     public void addFrame(Frame frame) {
