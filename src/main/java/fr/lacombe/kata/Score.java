@@ -3,6 +3,7 @@ package fr.lacombe.kata;
 import java.util.Objects;
 
 public class Score {
+    public static final Score NULL_SCORE = valueOf(0);
     private final int value;
 
     public Score(int value) {

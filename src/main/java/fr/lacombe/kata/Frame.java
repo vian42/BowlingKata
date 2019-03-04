@@ -1,5 +1,7 @@
 package fr.lacombe.kata;
 
+import static fr.lacombe.kata.Score.valueOf;
+
 public class Frame {
     public static final int MAX_PINS = 10;
     private final Roll firstRoll;
@@ -15,15 +17,19 @@ public class Frame {
     }
 
     public Score computeScore() {
-        return Score.valueOf(firstRoll.plus(secondRoll));
+        return isStrike() ? valueOf(firstRoll.getPins()): valueOf(firstRoll.plus(secondRoll));
+    }
+
+    boolean isStrike() {
+        return MAX_PINS == firstRoll.getPins();
     }
 
     public Score getFirstRollPin() {
-        return Score.valueOf(firstRoll.getPins());
+        return valueOf(firstRoll.getPins());
     }
 
     boolean isSpare() {
-        return firstRoll.getPins()<MAX_PINS && Score.valueOf(MAX_PINS).equals(computeScore());
+        return firstRoll.getPins()<MAX_PINS && valueOf(MAX_PINS).equals(computeScore());
     }
 
     public static class FrameBuilder {

@@ -2,32 +2,56 @@ package fr.lacombe.kata;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.stream.Stream;
 
-public class Game {
+import static fr.lacombe.kata.Score.*;
+
+class Game {
     private List<Frame> frames = new ArrayList<>();
+    private ListIterator<Frame> frameIterator;
 
-    public Score score() {
-        Score score = Score.valueOf(0);
+    Score score() {
+        Score score = NULL_SCORE;
 
-        ListIterator<Frame> frameIterator = frames.listIterator();
+        frameIterator = frames.listIterator();
         while (frameIterator.hasNext()) {
             Frame frame = frameIterator.next();
-            Score addedScore = frame.computeScore();
-            score = score.plus(addedScore);
-
-            if (frame.isSpare() && frameIterator.hasNext()) {
-                score = score.plus(frameIterator.next().getFirstRollPin());
-                frameIterator.previous();
-            }
+            Score frameScore = getScore(frame);
+            score = score.plus(frameScore);
         }
         return score;
     }
 
-    public void addFrame(Frame frame) {
+    private Score getScore(Frame frame) {
+        Score frameScore = frame.computeScore();
+
+        Score bonusStrike = getStrikeBonus(frame);
+
+        Score bonusSpare = getSpareBonus(frame);
+
+        return frameScore.plus(bonusSpare).plus(bonusStrike);
+    }
+
+    private Score getStrikeBonus(Frame frame) {
+        Score bonusStrike = NULL_SCORE;
+        if (frame.isStrike() && frameIterator.hasNext()) {
+            bonusStrike = frameIterator.next().computeScore();
+            frameIterator.previous();
+        }
+        return bonusStrike;
+    }
+
+    private Score getSpareBonus(Frame frame) {
+        Score bonusSpare = NULL_SCORE;
+        if (frame.isSpare() && frameIterator.hasNext()) {
+            bonusSpare = frameIterator.next().getFirstRollPin();
+            frameIterator.previous();
+        }
+        return bonusSpare;
+    }
+
+    void addFrame(Frame frame) {
         this.frames.add(frame);
     }
 }
